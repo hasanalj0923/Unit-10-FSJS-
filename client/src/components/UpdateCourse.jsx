@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import ValidationErrors from "./ValidationErrors";
+import { api } from "../utils/apiHelper";
 
 /**
  * UpdateCourse Component
@@ -26,7 +27,7 @@ const UpdateCourse = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await fetch(`/api/courses/${id}`);
+        const response = await api.get(`/courses/${id}`);
         if (response.status === 404) {
           navigate("/notfound");
           return;
@@ -34,6 +35,7 @@ const UpdateCourse = () => {
         if (!response.ok) {
           throw new Error(`Error fetching course: ${response.status}`);
         }
+
         const data = await response.json();
 
         if (authUser.id !== data.userId) {
@@ -46,6 +48,7 @@ const UpdateCourse = () => {
         setEstimatedTime(data.estimatedTime);
         setMaterialsNeeded(data.materialsNeeded);
       } catch (err) {
+        console.error(err);
         navigate("/error");
       }
     };
@@ -59,13 +62,8 @@ const UpdateCourse = () => {
     const updatedCourse = { title, description, estimatedTime, materialsNeeded };
 
     try {
-      const response = await fetch(`/api/courses/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          // Add auth header if needed
-        },
-        body: JSON.stringify(updatedCourse)
+      const response = await api.put(`/courses/${id}`, updatedCourse, {
+        // Include auth headers if required
       });
 
       if (response.status === 400) {
@@ -74,13 +72,13 @@ const UpdateCourse = () => {
         return;
       }
 
-      if (response.status === 404) {
-        navigate("/notfound");
+      if (response.status === 403) {
+        navigate("/forbidden");
         return;
       }
 
-      if (response.status === 403) {
-        navigate("/forbidden");
+      if (response.status === 404) {
+        navigate("/notfound");
         return;
       }
 

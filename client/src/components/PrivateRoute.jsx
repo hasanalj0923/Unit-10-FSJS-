@@ -6,15 +6,17 @@ import { UserContext } from "../context/UserContext";
 /**
  * PrivateRoute Component
  *
- * Higher-order component to protect routes requiring authentication.
- * Renders child routes via <Outlet /> if user is authenticated.
- * Redirects unauthenticated users to /signin, preserving their intended path.
+ * Protects routes that require authentication.
+ * - Renders child routes via <Outlet /> if user is authenticated.
+ * - Redirects unauthenticated users to /signin.
+ * - Preserves intended path for redirect after sign-in.
  */
 const PrivateRoute = () => {
   const { authUser } = useContext(UserContext);
   const location = useLocation();
 
   if (!authUser) {
+    // Redirect to sign-in page, saving current location
     return <Navigate to="/signin" replace state={{ from: location }} />;
   }
 

@@ -7,14 +7,16 @@ import { UserContext } from "../context/UserContext";
  * UserSignOut Component
  *
  * Signs out the authenticated user by clearing their credentials.
- * Redirects to the homepage after sign out.
+ * Redirects to the homepage immediately after signing out.
  */
 const UserSignOut = () => {
   const { signOut } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Clear authenticated user data from global context
     signOut();
+    // Redirect to homepage
     navigate("/");
   }, [signOut, navigate]);
 

@@ -31,7 +31,11 @@ const Header = () => {
             <ul className="header--signedin">
               <li>Welcome, {authUser.firstName} {authUser.lastName}!</li>
               <li>
-                <button onClick={handleSignOut} className="signout-button">
+                <button 
+                  type="button" 
+                  onClick={handleSignOut} 
+                  className="signout-button"
+                >
                   Sign Out
                 </button>
               </li>

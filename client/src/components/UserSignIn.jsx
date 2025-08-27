@@ -22,6 +22,7 @@ const UserSignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const result = await signIn(email, password);
 

@@ -3,6 +3,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import ValidationErrors from "./ValidationErrors";
+import { api } from "../utils/apiHelper";
 
 /**
  * CreateCourse Component
@@ -33,13 +34,8 @@ const CreateCourse = () => {
     };
 
     try {
-      const response = await fetch("/api/courses", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // Add auth header if needed
-        },
-        body: JSON.stringify(courseData)
+      const response = await api.post("/courses", courseData, {
+        // Include auth headers if required, e.g., Basic Auth
       });
 
       if (response.status === 400) {

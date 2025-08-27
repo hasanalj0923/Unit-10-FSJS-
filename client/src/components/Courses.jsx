@@ -1,6 +1,7 @@
 // src/components/Courses.jsx
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getCourses } from "../utils/apiHelper";
 
 /**
  * Courses Component
@@ -13,25 +14,27 @@ const Courses = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch("/api/courses");
-        if (!response.ok) {
-          throw new Error(`Error fetching courses: ${response.status}`);
-        }
-        const data = await response.json();
+        const data = await getCourses();
         setCourses(data);
       } catch (err) {
-        setError(err.message);
+        // Redirect to error page if status 500
+        if (err.message.includes("500")) {
+          navigate("/error");
+        } else {
+          setError(err.message);
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchCourses();
-  }, []);
+  }, [navigate]);
 
   if (loading) return <p>Loading courses...</p>;
   if (error) return <p>Error: {error}</p>;

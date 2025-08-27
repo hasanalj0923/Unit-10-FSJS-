@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { UserContext } from "../context/UserContext";
+import { api } from "../utils/apiHelper";
 
 /**
  * CourseDetail Component
@@ -18,22 +19,26 @@ const CourseDetail = () => {
 
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await fetch(`/api/courses/${id}`);
+        const response = await api.get(`/courses/${id}`);
+
         if (response.status === 404) {
           navigate("/notfound");
           return;
         }
+
         if (!response.ok) {
-          throw new Error(`Error fetching course: ${response.status}`);
+          navigate("/error");
+          return;
         }
+
         const data = await response.json();
         setCourse(data);
       } catch (err) {
+        console.error(err);
         navigate("/error");
       } finally {
         setLoading(false);
@@ -47,12 +52,8 @@ const CourseDetail = () => {
     if (!window.confirm("Are you sure you want to delete this course?")) return;
 
     try {
-      const response = await fetch(`/api/courses/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          // Add auth header if needed, e.g. Basic auth
-        },
+      const response = await api.delete(`/courses/${id}`, {
+        // include auth headers here if necessary
       });
 
       if (response.status === 500) {
@@ -64,7 +65,7 @@ const CourseDetail = () => {
         throw new Error(`Failed to delete course: ${response.status}`);
       }
 
-      navigate("/"); // Redirect to courses list after deletion
+      navigate("/"); // Redirect to courses list
     } catch (err) {
       console.error(err);
       navigate("/error");
@@ -72,7 +73,7 @@ const CourseDetail = () => {
   };
 
   if (loading) return <p>Loading course...</p>;
-  if (!course) return null; // Redirect already handled
+  if (!course) return null; // Already handled redirect
 
   const isOwner = authUser && authUser.id === course.userId;
 
@@ -93,7 +94,7 @@ const CourseDetail = () => {
       {isOwner && (
         <div className="course--actions">
           <Link className="button" to={`/courses/${id}/update`}>Update Course</Link>
-          <button className="button" onClick={handleDelete}>Delete Course</button>
+          <button type="button" className="button" onClick={handleDelete}>Delete Course</button>
         </div>
       )}
     </main>
