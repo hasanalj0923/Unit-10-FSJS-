@@ -76,8 +76,8 @@ const CreateCourse = () => {
       } else {
         throw new Error("Unexpected error");
       }
-    } catch (err) {
-      setErrors([
+    } catch {
+   setErrors([
         "Please provide a value for 'title'",
         "Please provide a value for 'description'"
       ]);
