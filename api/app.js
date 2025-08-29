@@ -46,7 +46,7 @@ app.use((req, res) => {
 });
 
 // setup a global error handler
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {  // removed 'next'
   if (enableGlobalErrorLogging) {
     console.error(`Global error handler: ${err.stack}`);
   }
