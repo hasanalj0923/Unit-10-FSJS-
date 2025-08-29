@@ -3,6 +3,20 @@ import React, { useRef, useState, useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext.jsx';
 
+/**
+ * UpdateCourse component allows an authenticated user to update an existing course.
+ * It fetches the current course data, populates the form, and submits updates to the API.
+ *
+ * Features:
+ *  - Fetches course details on mount using course ID from route params
+ *  - Populates form fields with existing course data
+ *  - Handles validation errors and displays them
+ *  - Sends a PUT request to update the course
+ *  - Provides Cancel button to navigate back to course detail
+ *
+ * @component
+ * @returns {JSX.Element} Form for updating a course with validation and navigation
+ */
 const UpdateCourse = () => {
   const { authUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -16,7 +30,10 @@ const UpdateCourse = () => {
   const estimatedTime = useRef(null);
   const materialsNeeded = useRef(null);
 
-  // Fetch course data on mount
+  /**
+   * Fetches course data from API on component mount or when course ID changes.
+   * Sets course state or error state if fetch fails.
+   */
   useEffect(() => {
     fetch(`http://localhost:5000/api/courses/${id}`)
       .then(res => {
@@ -27,6 +44,12 @@ const UpdateCourse = () => {
       .catch(() => setErrors(['Error loading course']));
   }, [id]);
 
+  /**
+   * Handles form submission to update the course.
+   * Sends a PUT request with updated course data.
+   *
+   * @param {React.FormEvent} e - Form submit event
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);

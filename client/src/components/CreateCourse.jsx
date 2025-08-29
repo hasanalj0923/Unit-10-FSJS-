@@ -3,6 +3,20 @@ import React, { useRef, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext.jsx";
 
+/**
+ * CreateCourse component renders a form that allows an authenticated user
+ * to create a new course. It handles form submission, validation, and API interaction.
+ *
+ * Features:
+ *  - Uses refs to collect input values for course fields
+ *  - Validates required fields (title and description) and displays errors
+ *  - Sends a POST request to the API to create a new course
+ *  - Redirects to course list on success or signin page if not authenticated
+ *  - Provides a Cancel button to navigate back to course list
+ *
+ * @component
+ * @returns {JSX.Element} Form to create a new course with validation
+ */
 const CreateCourse = () => {
   const navigate = useNavigate();
   const { authUser } = useContext(AuthContext);
@@ -18,6 +32,12 @@ const CreateCourse = () => {
     "Please provide a value for 'Description'"
   ]);
 
+  /**
+   * Handles form submission to create a new course.
+   * Validates input and sends POST request to API.
+   *
+   * @param {React.FormEvent} event - Form submit event
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -64,6 +84,11 @@ const CreateCourse = () => {
     }
   };
 
+  /**
+   * Handles cancellation of course creation, navigating back to course list.
+   *
+   * @param {React.MouseEvent} event - Button click event
+   */
   const handleCancel = (event) => {
     event.preventDefault();
     navigate("/");

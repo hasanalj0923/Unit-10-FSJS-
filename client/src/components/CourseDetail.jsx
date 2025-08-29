@@ -4,6 +4,19 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { AuthContext } from '../context/AuthContext.jsx';
 
+/**
+ * CourseDetail component fetches and displays detailed information for a specific course.
+ * It allows authorized users to update or delete the course.
+ *
+ * Features:
+ *  - Fetch course details from REST API using course ID from route params
+ *  - Display course title, author, description, estimated time, and materials needed
+ *  - Allow signed-in users who own the course to update or delete it
+ *  - Show a "Return to List" link for all users
+ *
+ * @component
+ * @returns {JSX.Element} The CourseDetail view for a single course
+ */
 const CourseDetail = () => {
   const { id } = useParams();
   const { authUser } = useContext(AuthContext);
@@ -12,7 +25,9 @@ const CourseDetail = () => {
   const [course, setCourse] = useState(null);
   const [error, setError] = useState(null);
 
-  // Fetch course data
+  /**
+   * Fetches course data from the API when the component mounts or ID changes.
+   */
   useEffect(() => {
     fetch(`http://localhost:5000/api/courses/${id}`)
       .then(res => {
@@ -26,7 +41,10 @@ const CourseDetail = () => {
       });
   }, [id]);
 
-  // Delete course
+  /**
+   * Deletes the current course if the user is signed in and authorized.
+   * Redirects to the course list on successful deletion.
+   */
   const deleteCourse = async () => {
     if (!authUser) return alert('You must be signed in to delete a course.');
 

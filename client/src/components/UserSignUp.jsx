@@ -2,6 +2,21 @@ import React, { useRef, useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext.jsx';
 
+/**
+ * UserSignUp component renders a sign-up form for new users.
+ * It sends user data to the API to create a new account and
+ * automatically signs in the user upon successful registration.
+ *
+ * Features:
+ *  - Collects first name, last name, email, and password input using refs
+ *  - Displays validation errors if sign-up fails
+ *  - Automatically signs in and redirects to home page upon successful registration
+ *  - Provides a cancel link to navigate back to the course list
+ *  - Provides a link to the sign-in page for existing users
+ *
+ * @component
+ * @returns {JSX.Element} Sign-up form with validation and navigation
+ */
 const UserSignUp = () => {
   const { signIn } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -13,6 +28,12 @@ const UserSignUp = () => {
 
   const [errors, setErrors] = useState([]);
 
+  /**
+   * Handles form submission to register a new user.
+   * Sends a POST request to the API and signs in the user on success.
+   *
+   * @param {React.FormEvent} e - Form submit event
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors([]);

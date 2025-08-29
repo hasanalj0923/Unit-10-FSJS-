@@ -1,10 +1,26 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+/**
+ * Courses component fetches and displays a list of all available courses.
+ * Each course links to its CourseDetail page. Provides a link to create a new course.
+ *
+ * Features:
+ *  - Fetches all courses from the REST API on component mount
+ *  - Displays each course with title and link to details
+ *  - Provides a "New Course" link to navigate to the CreateCourse page
+ *
+ * @component
+ * @returns {JSX.Element} The Courses view with course listings and navigation links
+ */
 const Courses = () => {
   const [courses, setCourses] = useState(null);
   const [error, setError] = useState(null);
 
+  /**
+   * Fetches courses from the API when the component mounts.
+   * Sets courses state if successful, or error state if fetch fails.
+   */
   useEffect(() => {
     const fetchCourses = async () => {
       try {
