@@ -78,17 +78,22 @@ const UserSignUp = () => {
           </div>
         )}
         <form onSubmit={handleSubmit}>
-          <label htmlFor="firstName">First Name</label>
-          <input id="firstName" type="text" ref={firstNameRef} required />
-          <label htmlFor="lastName">Last Name</label>
-          <input id="lastName" type="text" ref={lastNameRef} required />
-          <label htmlFor="emailAddress">Email Address</label>
-          <input id="emailAddress" type="email" ref={emailRef} required />
-          <label htmlFor="password">Password</label>
-          <input id="password" type="password" ref={passwordRef} required />
-          <button className="button" type="submit">Sign Up</button>
-          <Link className="button button-secondary" to="/">Cancel</Link>
-        </form>
+  <label htmlFor="firstName">First Name</label>
+  <input id="firstName" type="text" ref={firstNameRef} />
+
+  <label htmlFor="lastName">Last Name</label>
+  <input id="lastName" type="text" ref={lastNameRef} />
+
+  <label htmlFor="emailAddress">Email Address</label>
+  <input id="emailAddress" type="email" ref={emailRef} />
+
+  <label htmlFor="password">Password</label>
+  <input id="password" type="password" ref={passwordRef} />
+
+  <button className="button" type="submit">Sign Up</button>
+  <Link className="button button-secondary" to="/">Cancel</Link>
+</form>
+
         <p>Already have a user account? Click here to <Link to="/signin">sign in</Link>!</p>
         </div>
     </main>

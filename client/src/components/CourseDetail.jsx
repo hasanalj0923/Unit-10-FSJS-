@@ -79,13 +79,14 @@ const CourseDetail = () => {
     <main>
       <div className="actions--bar">
         <div className="wrap">
-          {/* Only show Update/Delete if user is signed in */}
-          {authUser && (
-            <>
-              <Link className="button" to={`/courses/${id}/update`}>Update Course</Link>
-              <button className="button" onClick={deleteCourse}>Delete Course</button>
-            </>
-          )}
+          {/* Only show Update/Delete if user is signed in and owns course */}
+          {authUser && course && String(authUser.id) === String(course.User?.id) && (
+  <>
+    <Link className="button" to={`/courses/${id}/update`}>Update Course</Link>
+    <button className="button" onClick={deleteCourse}>Delete Course</button>
+  </>
+)}
+
           {/* Always show Return to List */}
           <Link className="button button-secondary" to="/">Return to List</Link>
         </div>

@@ -26,11 +26,9 @@ const CreateCourse = () => {
   const estimatedTime = useRef(null);
   const materialsNeeded = useRef(null);
 
-  // Start with the two default validation errors
-  const [errors, setErrors] = useState([
-    "Please provide a value for 'Title'",
-    "Please provide a value for 'Description'"
-  ]);
+ // Start with no validation errors
+const [errors, setErrors] = useState([]);
+
 
   /**
    * Handles form submission to create a new course.
